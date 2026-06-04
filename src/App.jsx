@@ -273,7 +273,7 @@ function Hero() {
 
         <div className="grid grid-cols-3 gap-5 max-w-2xl">
           <Stat number={5} suffix="+" label="Projects" />
-          <Stat number={2} suffix="+" label="Years" />
+          <Stat number={1} suffix="+" label="Years" />
           <Stat number={500} suffix="+" label="Commits" />
         </div>
       </div>
