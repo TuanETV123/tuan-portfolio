@@ -107,7 +107,7 @@ function App() {
     "RBAC",
     "React.js",],
     githubUrl: "https://github.com/SWP-SportsBicycles/used-bicycle-exchange-FE",
-    liveUrl: "https://used-bicycle-exchange-fe.vercel.app/marketplace",
+    liveUrl: "https://used-bicycle-exchange-fe.vercel.app",
   },
   {
   name: "Ecommerce Tea Shop - Online Tea Store",
@@ -127,7 +127,7 @@ function App() {
     "Frontend Routing",
   ],
   githubUrl: "https://github.com/EcommerceTeaShop/EcommerceTeaShop.FE",
-  liveUrl: "https://your-demo-link.com",
+  liveUrl: "https://teavault-shop.vercel.app/",
 },
 ];
 
