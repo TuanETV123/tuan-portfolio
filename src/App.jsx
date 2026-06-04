@@ -846,7 +846,7 @@ const [sendStatus, setSendStatus] = useState("");
       label: "Facebook",
       value: "nguyen.anh.tuan.744887",
       href: "https://www.facebook.com/nguyen.anh.tuan.744887",
-      icon: "public/icons/Facebook_f_logo_(2019).svg.png",
+      icon: "/icons/Facebook_f_logo_(2019).svg.png",
     },
     {
       type: "email",
@@ -860,7 +860,7 @@ const [sendStatus, setSendStatus] = useState("");
       label: "Zalo",
       value: "+84 901 909 777",
       href: "tel:+84901909777",
-      icon: "public/icons/zalo.png",
+      icon: "/icons/zalo.png",
     },
   ];
 
