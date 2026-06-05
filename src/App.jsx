@@ -142,6 +142,7 @@ useScrollReveal();
       <Projects projects={projects} />
       <Education />
       <Contact />
+      <AIChatBox />
       <Footer />
     </main>
   );
@@ -1004,6 +1005,140 @@ const [sendStatus, setSendStatus] = useState("");
         </form>
       </div>
     </section>
+  );
+}
+function AIChatBox() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      role: "assistant",
+      text: "Hi, I’m Tuan’s AI assistant. You can ask me about his skills, projects, or contact information.",
+    },
+  ]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+
+    const userMessage = input.trim();
+
+    if (!userMessage) return;
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "user",
+        text: userMessage,
+      },
+    ]);
+
+    setInput("");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: userMessage,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Chat API details:", data);
+
+        throw new Error(
+          data?.details?.error?.message ||
+            data?.message ||
+            data?.error ||
+            "Failed to send message"
+        );
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          text: data.reply,
+        },
+      ]);
+    } catch (error) {
+      console.error("AI Chat Error:", error);
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          text:
+            error.message ||
+            "AI chat failed. Please check GEMINI_API_KEY or Vercel API route.",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="ai-chatbox">
+      {isOpen && (
+        <div className="ai-chat-window">
+          <div className="ai-chat-header">
+            <div>
+              <strong>AI Assistant</strong>
+              <span>Ask about Tuan’s profile</span>
+            </div>
+
+            <button type="button" onClick={() => setIsOpen(false)}>
+              ×
+            </button>
+          </div>
+
+          <div className="ai-chat-messages">
+            {messages.map((message, index) => (
+              <div
+                key={`${message.role}-${index}`}
+                className={`ai-message ${
+                  message.role === "user" ? "user" : "assistant"
+                }`}
+              >
+                {message.text}
+              </div>
+            ))}
+
+            {isLoading && (
+              <div className="ai-message assistant">Typing...</div>
+            )}
+          </div>
+
+          <form className="ai-chat-input" onSubmit={handleSend}>
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask about my skills..."
+              disabled={isLoading}
+            />
+
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? "..." : "Send"}
+            </button>
+          </form>
+        </div>
+      )}
+
+      <button
+        type="button"
+        className="ai-chat-toggle"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        AI
+      </button>
+    </div>
   );
 }
 
